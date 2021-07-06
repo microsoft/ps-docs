@@ -30,12 +30,13 @@ For a list of changes please see the [change log].
 - name: Generate docs
   uses: Microsoft/ps-docs@main
   with:
-    inputPath: string                                       # Optional. The path PSDocs will look for files to input files.
-    modules: string                                         # Optional. A comma separated list of modules to use containing document definitions.
-    source: string                                          # Optional. An path containing definitions to use for generating documentation.
-    outputPath: string                                      # Optional. The path to write documentation to.
-    path: string                                            # Optional. The working directory PSDocs is run from.
-    prerelease: boolean                                     # Optional. Determine if a pre-release module version is installed.
+    inputPath: string       # Optional. The path PSDocs will look for files to input files.
+    modules: string         # Optional. A comma separated list of modules to use containing document definitions.
+    source: string          # Optional. An path containing definitions to use for generating documentation.
+    conventions: string     # Optional. A comma separated list of conventions to use for generating documentation.
+    outputPath: string      # Optional. The path to write documentation to.
+    path: string            # Optional. The working directory PSDocs is run from.
+    prerelease: boolean     # Optional. Determine if a pre-release module version is installed.
 ```
 
 ### `inputPath`
@@ -59,6 +60,17 @@ An path containing definitions to use for generating documentation.
 Defaults to `.ps-docs/`.
 
 Use this option to include document definitions that have not been packaged as a module.
+
+### `conventions`
+
+A comma separated list of conventions to use for generating documentation.
+
+Conventions are code blocks that provide extensibility and integration.
+They can be included in `.Doc.ps1` files from `.ps-docs/` or modules.
+
+See [about_PSDocs_Conventions][2] for more information.
+
+  [2]: https://github.com/microsoft/PSDocs/blob/main/docs/concepts/PSDocs/en-US/about_PSDocs_Conventions.md
 
 ### `outputPath`
 

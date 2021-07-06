@@ -25,6 +25,9 @@ param (
     [Parameter(Mandatory = $False)]
     [String]$Modules = $Env:INPUT_MODULES,
 
+    [Parameter(Mandatory = $False)]
+    [String]$Conventions = $ENV:INPUT_CONVENTIONS,
+
     # The path to write documentation to.
     [Parameter(Mandatory = $False)]
     [String]$OutputPath = $Env:INPUT_OUTPUTPATH,
@@ -109,24 +112,30 @@ if ($PreRelease -eq 'true') {
     $moduleParams['AllowPrerelease'] = $True;
 }
 
-# Install each module if not already installed
-foreach ($m in $moduleNames) {
-    $m = $m.Trim();
-    Write-Host "> Checking module: $m";
-    if ($Null -eq (Get-InstalledModule -Name $m -ErrorAction Ignore)) {
-        Write-Host '  - Installing module';
-        $Null = Install-Module -Name $m @moduleParams -AllowClobber;
+try {
+    # Install each module if not already installed
+    foreach ($m in $moduleNames) {
+        $m = $m.Trim();
+        Write-Host "> Checking module: $m";
+        if ($Null -eq (Get-InstalledModule -Name $m -ErrorAction Ignore)) {
+            Write-Host '  - Installing module';
+            $Null = Install-Module -Name $m @moduleParams -AllowClobber -ErrorAction Stop;
+        }
+        else {
+            Write-Host '  - Already installed';
+        }
+        # Check
+        if ($Null -eq (Get-InstalledModule -Name $m)) {
+            Write-Host "::error::Failed to install $m.";
+        }
+        else {
+            Write-Host "  - Using version: $((Get-InstalledModule -Name $m).Version)";
+        }
     }
-    else {
-        Write-Host '  - Already installed';
-    }
-    # Check
-    if ($Null -eq (Get-InstalledModule -Name $m)) {
-        Write-Host "  - Failed to install";
-    }
-    else {
-        Write-Host "  - Using version: $((Get-InstalledModule -Name $m).Version)";
-    }
+}
+catch {
+    Write-Host "::error::An error occured installing a dependency module.";
+    $Host.SetShouldExit(1);
 }
 
 Write-Host '';
@@ -134,10 +143,8 @@ Write-Host "[info] Using Action: $Env:GITHUB_ACTION";
 Write-Host "[info] Using PWD: $PWD";
 Write-Host "[info] Using Path: $Path";
 Write-Host "[info] Using Source: $Source";
-Write-Host "[info] Using Baseline: $Baseline";
-Write-Host "[info] Using InputType: $InputType";
+Write-Host "[info] Using Conventions: $Conventions";
 Write-Host "[info] Using InputPath: $InputPath";
-Write-Host "[info] Using OutputFormat: $OutputFormat";
 Write-Host "[info] Using OutputPath: $OutputPath";
 
 try {
@@ -152,6 +159,11 @@ try {
         $moduleNames = $Modules.Split(',', [System.StringSplitOptions]::RemoveEmptyEntries);
         $invokeParams['Module'] = $moduleNames;
         WriteDebug ([String]::Concat('-Module ', [String]::Join(', ', $moduleNames)));
+    }
+    if (![String]::IsNullOrEmpty($Conventions)) {
+        $conventionNames = $Conventions.Split(',', [System.StringSplitOptions]::RemoveEmptyEntries);
+        $invokeParams['Convention'] = $conventionNames;
+        WriteDebug ([String]::Concat('-Convention ', [String]::Join(', ', $conventionNames)));
     }
     if (![String]::IsNullOrEmpty($OutputPath)) {
         $invokeParams['OutputPath'] = $OutputPath;
