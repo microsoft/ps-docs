@@ -21,6 +21,11 @@ inputs:
     default: '.ps-docs/'
     required: false
 
+  conventions:
+    description: 'A comma separated list of conventions to use for generating documentation.'
+    default: ''
+    required: false
+
   outputPath:
     description: 'The path to write documentation to.'
     default: ''
