@@ -1,0 +1,41 @@
+name: 'PSDocs'
+description: 'Generate documentation from Infrastructure as Code (IaC) using GitHub Actions.'
+author: 'Microsoft'
+branding:
+  icon: 'book-open'
+  color: 'blue'
+inputs:
+
+  inputPath:
+    description: 'The path PSDocs will look for files to input files.'
+    default: ''
+    required: false
+
+  modules:
+    description: 'A comma separated list of modules to use containing document definitions.'
+    default: ''
+    required: false
+
+  source:
+    description: 'An path containing definitions to use for generating documentation.'
+    default: '.ps-docs/'
+    required: false
+
+  outputPath:
+    description: 'The path to write documentation to.'
+    default: ''
+    required: false
+
+  path:
+    description: 'The working directory PSDocs is run from.'
+    default: ''
+    required: false
+
+  prerelease:
+    description: 'Determine if a pre-release module version is installed.'
+    default: 'false'
+    required: false
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
