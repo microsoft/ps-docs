@@ -176,7 +176,7 @@ try {
     Invoke-PSDocument @invokeParams -InputPath $InputPath;
 }
 catch {
-    Write-Host "::error::An error occured generating documentation.";
+    Write-Host "::error::An error occured generating documentation. $($_.Exception.Message)";
     $Host.SetShouldExit(1);
 }
 finally {

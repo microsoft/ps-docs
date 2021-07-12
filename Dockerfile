@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-ARG MODULE_VERSION=0.9.0-B2107015
+ARG MODULE_VERSION=0.9.0-B2107020
 
 # NOTE: Use pre-release version with -MinimumVersion -AllowPrerelease.
 
