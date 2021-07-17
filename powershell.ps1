@@ -177,6 +177,9 @@ try {
 }
 catch {
     Write-Host "::error::An error occured generating documentation. $($_.Exception.Message)";
+    if ($Null -ne $_.ScriptStackTrace) {
+        $_.ScriptStackTrace;
+    }
     $Host.SetShouldExit(1);
 }
 finally {
