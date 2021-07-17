@@ -138,7 +138,11 @@ catch {
     $Host.SetShouldExit(1);
 }
 
+$Null = Import-Module PSDocs -ErrorAction Stop;
+$version = (Get-InstalledModule PSDocs).Version;
+
 Write-Host '';
+Write-Host "[info] Using Version: $version";
 Write-Host "[info] Using Action: $Env:GITHUB_ACTION";
 Write-Host "[info] Using PWD: $PWD";
 Write-Host "[info] Using Path: $Path";
@@ -177,6 +181,9 @@ try {
 }
 catch {
     Write-Host "::error::An error occured generating documentation. $($_.Exception.Message)";
+    if ($Null -ne $_.ScriptStackTrace) {
+        $_.ScriptStackTrace;
+    }
     $Host.SetShouldExit(1);
 }
 finally {
