@@ -8,12 +8,12 @@ To learn about PSDocs and how you can build documentation dynamically see [Getti
 
 ## Usage
 
-<!-- To get the latest stable release use:
+To get the latest stable release use:
 
 ```yaml
 - name: Generate docs
   uses: Microsoft/ps-docs@v0.1.0
-``` -->
+```
 
 To get the latest bits use:
 
