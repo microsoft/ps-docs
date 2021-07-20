@@ -1,4 +1,4 @@
-name: 'PSDocs'
+name: 'ps-docs'
 description: 'Generate documentation from Infrastructure as Code (IaC) using GitHub Actions.'
 author: 'Microsoft'
 branding:
