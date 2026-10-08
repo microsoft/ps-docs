@@ -17,6 +17,8 @@ updates:
     - 'dependencies'
     reviewers:
     - '@microsoft/psdocs'
+    cooldown:
+      default-days: 7
 
   # Maintain dependencies for Docker
   - package-ecosystem: 'docker'
